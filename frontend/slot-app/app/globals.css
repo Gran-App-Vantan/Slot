@@ -4,7 +4,6 @@
   --red: #F74D4D;
   --background: #ffffff;
   --foreground: #171717;
-
   --gold: linear-gradient(#c2a800 0%, #ffed7a 40%, #fff3a8 50%, #ffed7a 60%, #c2a800 100%);
 } 
 
@@ -14,6 +13,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-red: var(--red);
+  --color-gold: var(--gold);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,8 +50,32 @@ body {
     background-clip: text;
     color: transparent;
   }
+  .border-gold-inner-red {
+    border: 4px solid transparent;
+    border-radius: 22px;
+    background:
+    linear-gradient(#671818 0%, #C57979 10%, #671818 33%, #5B1111 62%, #972121 100%) content-box, 
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) 1;
+    border-image-slice: 1;
+  }
 }
 .size-27 {
   font-size: 27px;
   font-family: "Noto Rashi Hebrew", serif, bold;
+}
+.size-27-SC {
+  font-size: 27px;
+  font-family: "Noto Sans SC", serif, bold;
+}
+.gold {
+  background: linear-gradient(#c2a800 0%, #ffed7a 40%, #fff3a8 50%, #ffed7a 60%, #c2a800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
