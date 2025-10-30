@@ -68,7 +68,7 @@ body {
     border: 4px solid transparent;
     border-radius: 22px;
     background:
-    linear-gradient(#183A67 0%, #182B67 33%, #11205B 62%, #215097 100%) content-box, 
+    linear-gradient(#183A67 0%, #182B67 33%, #11205B 62%, #215097 100%) content-box,  
     linear-gradient(
       #c2a800 0%,
       #ffed7a 40%,
@@ -77,6 +77,19 @@ body {
       #c2a800 100%
     ) 1;
     border-image-slice: 1;
+  }
+    .border-gold-inner-black {
+    border: 4px solid transparent;
+    border-radius: 22px;
+    background:
+    linear-gradient(#1A1A1A 0%, #1A1A1A 100%) content-box, 
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) border-box;
   }
 }
 .size-27 {
