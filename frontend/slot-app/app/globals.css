@@ -1,15 +1,19 @@
 @import "tailwindcss";
 
 :root {
+  --red: #F74D4D;
   --background: #ffffff;
   --foreground: #171717;
-}
+
+  --gold: linear-gradient(#c2a800 0%, #ffed7a 40%, #fff3a8 50%, #ffed7a 60%, #c2a800 100%);
+} 
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-red: var(--red);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +27,31 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .border-gold-inner-green {
+    border: 4px solid transparent;
+    border-radius: 22px;
+    background:
+    linear-gradient(#406718 0%, #9CC579 18%, #236718 33%, #295B11 62%, #359721 100%) content-box, 
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) 1;
+    border-image-slice: 1;
+  }
+  .text-gold {
+    background: var(--gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+.size-27 {
+  font-size: 27px;
+  font-family: "Noto Rashi Hebrew", serif, bold;
 }
