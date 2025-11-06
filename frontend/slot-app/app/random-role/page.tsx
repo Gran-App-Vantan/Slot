@@ -1,118 +1,48 @@
 'use client';
-import StartStop from "../../components/StartStop";
-import { useState, useRef, useEffect } from "react";
-import GetRole from "../../components/role/get-role";
 
-export default function Role() {
-    // アイテムの間隔
-    const ITEM_SPACING = 200;
-    // wheel-lineの中心にアイテムを配置するための計算
-    const CENTER_POSITION = 127;
+import { useState } from "react";
+import Reel from "@/components/reel";
+import StartStop from "@/components/StartStop";
 
-    // 基本アイテム数
-    const BASE_ITEMS_COUNT = 6;
-    // 無限ループのために複数セット用意
-    const TOTAL_ITEMS = BASE_ITEMS_COUNT * 3;
-    const Items = Array(TOTAL_ITEMS).fill(null).map(() => GetRole());
-
-    const cycleLength = ITEM_SPACING * BASE_ITEMS_COUNT;
-    // 中央のセット(インデックス6-11)から開始するための初期オフセット
-    const INITIAL_OFFSET = ITEM_SPACING * BASE_ITEMS_COUNT;
-    const [running, setRunning] = useState(false);
-    
-    // アニメーションを停止の管理
-    const animationRef = useRef<number>(0);
-    // アニメーション開始時刻の管理
-    const startTimeRef = useRef<number>(0);
-    // 現在のスクロール位置（オフセット）の管理
-    const offsetRef = useRef<number>(INITIAL_OFFSET);
-    // アニメーション対象のDOM要素への参照
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    const animate = (timestamp: number) => {
-        if (!startTimeRef.current) {
-            startTimeRef.current = timestamp;
-        }
-
-        const elapsed = timestamp - startTimeRef.current;
-        // 0.3秒で620px移動する速度を計算
-        const speed = 620 / 300; // px per ms
-        const rawOffset = (elapsed * speed);
-
-        // 1サイクル分（6アイテム）でループ、初期オフセットを加える
-        const currentOffset = (rawOffset % cycleLength) + INITIAL_OFFSET;
-        offsetRef.current = currentOffset;
-
-        if (containerRef.current) {
-            containerRef.current.style.transform = `translateY(-${currentOffset}px)`;
-        }
-
-        if (running) {
-            animationRef.current = requestAnimationFrame(animate);
-        }
-    };
-
-    useEffect(() => {
-        if (running) {
-            startTimeRef.current = 0;
-            // アニメーションを開始
-            animationRef.current = requestAnimationFrame(animate);
-        } else {
-            // アニメーションを停止し、次のアイテム（下側）にスナップ
-            cancelAnimationFrame(animationRef.current);
-            // 下側にスナップするための計算
-            const currentOffset = offsetRef.current - INITIAL_OFFSET;
-            const nearestItemIndex = Math.ceil(currentOffset / ITEM_SPACING);
-            const snappedOffset = (nearestItemIndex * ITEM_SPACING) + INITIAL_OFFSET;
-
-            if (containerRef.current) {
-                containerRef.current.style.transition = 'transform 0.5s ease-out';
-                containerRef.current.style.transform = `translateY(-${snappedOffset}px)`;
-                offsetRef.current = snappedOffset;
-            }
-        }
-
-        return () => {
-            cancelAnimationFrame(animationRef.current);
-        };
-    }, [running]);
+export default function RandomRolePage() {
+    // ボタン押下回数をカウント
+    const [clickCount, setClickCount] = useState(0);
+    // 各リールの実行状態を管理（true: 回転中、false: 停止中）
+    const [reelStates, setReelStates] = useState<[boolean, boolean, boolean]>([false, false, false]);
 
     const handleToggle = () => {
-        if (running && containerRef.current) {
-            // 停止するときはトランジションを有効にする
-            containerRef.current.style.transition = 'transform 0.3s ease-out';
-        } else if (containerRef.current) {
-            // 開始するときはトランジションを無効にする
-            containerRef.current.style.transition = 'none';
+        const newCount = clickCount + 1;
+        setClickCount(newCount);
+
+        // すべてのリールが停止している場合は、すべて開始
+        if (reelStates.every(state => !state)) {
+            setReelStates([true, true, true]);
+            return;
         }
-        setRunning(prev => !prev);
+
+        // 奇数回目（1, 3, 5回目）で左から順にリールを停止
+        if (newCount === 2) {
+            // 左のリール（index 0）を停止
+            setReelStates([false, true, true]);
+        } else if (newCount === 3) {
+            // 真ん中のリール（index 1）を停止
+            setReelStates([false, false, true]);
+        } else if (newCount === 4) {
+            // 右のリール（index 2）を停止
+            setReelStates([false, false, false]);
+            // すべて停止したらカウントをリセット
+            setClickCount(0);
+        }
     };
 
     return (
         <>
-            <div className="wheel-line overflow-hidden relative">
-                <div
-                    ref={containerRef}
-                    className="py-2"
-                    style={{
-                        transform: `translateY(-${INITIAL_OFFSET}px)`,
-                        transition: 'none'
-                    }}
-                >
-                    {Items.map((item, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className="slot-item absolute left-4"
-                                style={{top: `${CENTER_POSITION + index * ITEM_SPACING}px`}}
-                            >
-                                {item}
-                            </div>
-                        )
-                    })}
-                </div>
+            <div className="flex gap-4">
+                <Reel running={reelStates[0]} />
+                <Reel running={reelStates[1]} />
+                <Reel running={reelStates[2]} />
             </div>
-            <StartStop onStop={handleToggle} />
+            <StartStop onStop={handleToggle} clickCount={clickCount} />
         </>
     );
 }
