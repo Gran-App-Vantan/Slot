@@ -8,17 +8,14 @@ interface StartStop {
 
 
 export default function StartStop( { onStop }: StartStop ) {
+    // スタートボタンを押したらtrue, ストップボタンを押したらfalse
     const [isRunning, setIsRunning] = useState(false);
 
     const handleClick = () => {
+        setIsRunning(!isRunning);
+        onStop?.();
         if (isRunning) {
-            setIsRunning(false);
-            onStop?.();
             GetRole();
-            console.log(GetRole());
-        } else {
-            setIsRunning(true);
-            console.log("Start");
         }
     };
 
@@ -26,6 +23,5 @@ export default function StartStop( { onStop }: StartStop ) {
         <span className={"size-27 " + `${isRunning ? "text-red" : "text-gold"}`}>
             {isRunning ? "Stop" : "Start"}            
         </span>
-        <div>{GetRole()}</div>
     </button>
 }
