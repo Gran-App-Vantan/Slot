@@ -7,9 +7,9 @@ const role = {
     eRole: <img src="/slot-item/IMG_7581.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.5" />,
     fRole: <img src="/slot-item/IMG_7721.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.6" />,
     gRole: <img src="/slot-item/IMG_7773.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.7" />,
-    hRole: <img src="/slot-item/IMG_7778.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.8" />,
-    iRole: <img src="/slot-item/IMG_7987.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.9" />,
-    jRole: <img src="/slot-item/IMG_8797.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.10" />,
+    // hRole: <img src="/slot-item/IMG_7778.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.8" />,
+    // iRole: <img src="/slot-item/IMG_7987.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.9" />,
+    // jRole: <img src="/slot-item/IMG_8797.jpg" className="w-[140px] h-[130px] object-cover" alt="淳平No.10" />,
 };
 const roleNumber = {
     aRole: 10,
@@ -19,9 +19,9 @@ const roleNumber = {
     eRole: 50,
     fRole: 60,
     gRole: 70,
-    hRole: 80,
-    iRole: 90,
-    jRole: 100,
+    // hRole: 80,
+    // iRole: 90,
+    // jRole: 100,
 };
 
 export default function GetRole():React.ReactNode {
@@ -31,25 +31,26 @@ export default function GetRole():React.ReactNode {
     // Math.floorで小数点以下を切り捨てる  | randomでRoleの中からランダムに選ぶ
     const random = Math.floor(Math.random() * totalRole);
 
-    if (random <= 30) {
+    if (random <= 60) {
         return role.aRole;
-    } else if (random <= 70) {
+    } else if (random <= 80) {
         return role.bRole;
-    } else if (random <= 170) {
+    } else if (random <= 120) {
         return role.cRole;
-    } else if (random <= 210) {
+    } else if (random <= 180) {
         return role.dRole;
-    } else if (random <= 300) {
+    } else if (random <= 220) {
         return role.eRole;
-    } else if (random <= 370) {
+    } else if (random <= 260) {
         return role.fRole;
-    } else if (random <= 430) {
-        return role.gRole;
-    } else if (random <= 500) {
-        return role.hRole;
-    } else if (random <= 530) {
-        return role.iRole;
     } else {
-        return role.jRole;
+        return role.gRole;
     }
+    // } else if (random <= 500) {
+    //     return role.hRole;
+    // } else if (random <= 530) {
+    //     return role.iRole;
+    // } else {
+    //     return role.jRole;
+    // }
 }
