@@ -1,9 +1,9 @@
-import StartStop from "@/components/StartStop";
+import Gambling from "../../components/gambling";
 
 function GamePage() {
     return <div>
         <h1 className="">Game Page</h1>
-        <StartStop />
+        <Gambling />
     </div>
 }
 
