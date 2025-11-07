@@ -78,7 +78,7 @@ body {
     ) 1;
     border-image-slice: 1;
   }
-    .border-gold-inner-black {
+  .border-gold-inner-black {
     border: 4px solid transparent;
     border-radius: 22px;
     background:
@@ -100,9 +100,78 @@ body {
   font-size: 27px;
   font-family: "Noto Sans SC", serif, bold;
 }
+.size-big {
+  font-size: 40px;
+  font-family: "Noto Sans SC", serif;
+  font-weight: 800;
+}
 .gold {
   background: linear-gradient(#c2a800 0%, #ffed7a 40%, #fff3a8 50%, #ffed7a 60%, #c2a800 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+.wheel-line {
+  width: 223px;
+  height: 419px;
+  border-radius: 22px;
+  border: 7px solid transparent;
+  background: 
+  linear-gradient(
+    #666666 0% 0.07,
+    #666666 1% 0.01,
+    #ffffff 3% 0.5,
+    #ffffff 4% 0.8,
+    #ffffff 20%,
+    #ffffff 50%,
+    #ffffff 80%,
+    #ffffff 96% 0.8,
+    #ffffff 97% 0.5,
+    #666666 99% 0.01,
+    #666666 100% 0.07
+  ) content-box,
+  linear-gradient(
+    #ffe59a 0%,
+    #ffc84d 35%,
+    #d4af37 54%,
+    #a17619 75%,
+    #fff1bf 100%
+  ) border-box;
+}
+.slot-item {
+  width: 174px;
+  height: 165px;
+  border-radius: 22px;
+  border: 8px solid transparent;
+  background: 
+  linear-gradient(#9b0000, #9b0000) content-box,
+  linear-gradient(
+    #ffe59a 0%,
+    #ffc84d 35%,
+    #d4af37 55%,
+    #a17619 75%,
+    #fff1bf 100%
+  ) border-box;
+}
+@keyframes spin {
+  /* スピン用のアニメーション */
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+}
+@keyframes text-blinking {
+  0% {
+    opacity: 1;
+    color: var(--gold);
+  }
+  100% {
+    opacity: 1;
+    color: var(--red);
+  }
+}
+.text-blinking {
+  animation: text-blinking 0.5s ease-in-out infinite alternate;
 }
