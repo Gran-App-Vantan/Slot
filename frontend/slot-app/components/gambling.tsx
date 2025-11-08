@@ -1,5 +1,6 @@
 import { RedirectStatusCode } from "next/dist/client/components/redirect-status-code";
 import Bet from "./bet";
+import TimeLine from "./time-line";
 
 function Gambling() {
     return (
@@ -7,6 +8,7 @@ function Gambling() {
             {/* BET決定buttonのコンポーネントを作成後に追加 */}
             <Bet />
             <Bet />
+            {/* <TimeLine /> */}
         </div>
     )
 }
