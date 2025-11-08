@@ -1,14 +1,24 @@
-import { RedirectStatusCode } from "next/dist/client/components/redirect-status-code";
+'use client';
 import Bet from "./bet";
-import TimeLine from "./time-line";
+import { useState } from "react";
 
 function Gambling() {
+    const [bet, setBet] = useState(0);
+    const clickBet = bet + 100;
+    const handleClickBet = () => {
+        setBet(prevBet => prevBet + 100);
+    }
     return (
-        <div className="flex justify-center items-center border-gold-inner-black w-114 h-24 gap-5">
+        <div className="flex justify-center items-center border-gold border-7 bg-foreground/90 w-114 h-24 gap-5 rounded-3xl">
             {/* BET決定buttonのコンポーネントを作成後に追加 */}
-            <Bet />
-            <Bet />
-            {/* <TimeLine /> */}
+            <button>
+                <p className="border-gold-inner-black w-48 h-16 text-gold size-27-SC">
+                    <span className="size-27-SC gold flex justify-center items-center h-14">
+                        {clickBet}
+                    </span>
+                </p>
+            </button>
+            <Bet onClick={handleClickBet}/>
         </div>
     )
 }
