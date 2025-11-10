@@ -18,4 +18,12 @@ class Spin extends Model
         'is_jackpot',
         'played_at',
     ];
+
+    function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    function reelResults(){
+        return $this->hasMany(SpinReelResult::class);
+    }
 }
