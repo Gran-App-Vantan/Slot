@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->foreginId('slot_id')->constrained('slots');
+            $table->foreignId('slot_id')->constrained('slots');
             $table->string('slot_role');
             $table->timestamps();
         });

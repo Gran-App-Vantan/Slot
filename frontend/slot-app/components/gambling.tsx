@@ -9,7 +9,7 @@ function Gambling() {
         setBet(prevBet => prevBet + 100);
     }
     return (
-        <div className="flex justify-center items-center border-gold border-7 bg-foreground/90 w-114 h-24 gap-5 rounded-3xl">
+        <div className="flex justify-center items-center border-gold-inner-black w-114 h-24 gap-5">
             {/* BET決定buttonのコンポーネントを作成後に追加 */}
             <button>
                 <p className="border-gold-inner-black w-48 h-16 text-gold size-27-SC">

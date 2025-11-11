@@ -1,9 +1,12 @@
-import Gambling from "../../components/gambling";
+import Gambling from "@/components/gambling";
+import TimeLine from "@/components/timeLine";
+
 
 function GamePage() {
     return (
-        <div className="bg-red-500">
-            <Gambling />
+        <div className="">
+            <TimeLine />
+            {/* <Gambling /> */}
         </div>
     )
 }

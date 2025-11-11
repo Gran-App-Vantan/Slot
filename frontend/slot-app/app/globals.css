@@ -5,15 +5,18 @@
   --background: #ffffff;
   --foreground: #171717;
   --gold: linear-gradient(#c2a800 0%, #ffed7a 40%, #fff3a8 50%, #ffed7a 60%, #c2a800 100%);
+
+  --font-Gothic: var(--font-zen-maru-gothic), serif, normal;
+  --p22: 22px;
+  --p20: 20px;
 } 
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-red: var(--red);
-  --color-gold: var(--gold);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -91,6 +94,12 @@ body {
       #c2a800 100%
     ) border-box;
   }
+}
+.text-gold {
+  background: var(--gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .size-27 {
   font-size: 27px;
@@ -174,4 +183,34 @@ body {
 }
 .text-blinking {
   animation: text-blinking 0.5s ease-in-out infinite alternate;
+}
+.border-gold {
+  border: 7px solid transparent;
+  border-radius: 24px;
+  background: var(--gold);
+  background: 
+    transparent content-box,
+    var(--gold) border-box;
+}
+.border-gold-inner-img {
+  border: 7px solid transparent;
+  border-radius: 24px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)) content-box,
+    url('/bg/bg-image.png') content-box,
+    linear-gradient(#0a0a0a 0%, #0a0a0a 100%) content-box,
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) border-box;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.p22 {
+  font-size: var(--p22);
+  font-family: var(--font-Gothic);
 }
