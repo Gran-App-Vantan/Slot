@@ -9,9 +9,9 @@ interface ReelProps {
 
 function Reel({ running, symbolChange, reelIndex }: ReelProps) {
     // アイテムの間隔
-    const ITEM_SPACING = 200;
+    const ITEM_SPACING = 180;
     // wheel-lineの中心にアイテムを配置するための計算
-    const CENTER_POSITION = 127;
+    const CENTER_POSITION = 190;
 
     // 基本アイテム数
     const BASE_ITEMS_COUNT = 7;
@@ -78,7 +78,7 @@ function Reel({ running, symbolChange, reelIndex }: ReelProps) {
 
         const elapsed = timestamp - startTimeRef.current;
         // 0.3秒で620px移動する速度を計算
-        const speed = 620 / 300; // px per ms
+        const speed = 620 / 250; // px per ms
         const rawOffset = (elapsed * speed);
 
         // 1サイクル分（7アイテム）でループ、初期オフセットを加える
