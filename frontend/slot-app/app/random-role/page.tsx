@@ -5,6 +5,7 @@ import Reel from "@/components/reel";
 import StartStop from "@/components/StartStop";
 import Gambling from "@/components/gambling";
 import { checkWin } from "@/components/winChecker";
+import TimeLine from "@/components/timeLine";
 
 export default function RandomRolePage() {
     // ボタン押下回数をカウント
@@ -23,6 +24,10 @@ export default function RandomRolePage() {
     const [bet, setBet] = useState(0);
     // この回のスピンで既にポイントを付与したかどうかを追跡
     const hasCheckedWinRef = useRef(false);
+    // タイムライン用の結果を管理
+    const [timelineResults, setTimelineResults] = useState<Array<{ type: string; role: string; payout: number }>>([]);
+    // スロットを回したかどうかを追跡
+    const [hasSpun, setHasSpun] = useState(false);
 
     const BetChange = () => {
         setBet(prevBet => prevBet + 100);
@@ -33,14 +38,14 @@ export default function RandomRolePage() {
         const allStopped = reelStates.every(state => !state);
         const allSymbolsSet = symbolGrid.every(reel => reel.every(symbol => symbol !== null));
         
-        if (allStopped && allSymbolsSet) {
+        if (allStopped && allSymbolsSet && hasSpun) {
             // まだチェックしていない場合のみ実行
             if (!hasCheckedWinRef.current) {
                 hasCheckedWinRef.current = true; // チェック済みフラグを設定
                 userWin();
             }
         }
-    }, [reelStates, symbolGrid]);
+    }, [reelStates, symbolGrid, hasSpun]);
 
     // 各roleの配当を定義
     const rolePayouts: Record<string, number> = {
@@ -77,6 +82,9 @@ export default function RandomRolePage() {
             DIAGONAL_MULTIPLIER,
             onWin: (winPoints) => {
                 setPoints(prev => prev + winPoints);
+            },
+            onResult: (result) => {
+                setTimelineResults(prev => [result, ...prev].slice(0, 10));
             }
         });
     }
@@ -100,6 +108,7 @@ export default function RandomRolePage() {
         // すべてのリールが停止している場合は、すべて開始
         if (reelStates.every(state => !state)) {
             setReelStates([true, true, true]);
+            setHasSpun(true); // スロットを回したことを記録
             // リール開始時にシンボルをリセット
             setSymbolGrid([
                 [null, null, null],
@@ -152,10 +161,8 @@ export default function RandomRolePage() {
                 />
             </div>
             <StartStop onStop={handleToggle} clickCount={clickCount} />
-            <div className="mt-4">
-                <p className="text-xl font-bold">ポイント: {points}</p>
-            </div>
             <Gambling bet={bet} onBetChange={BetChange}/>
+            <TimeLine results={timelineResults} />
         </>
     );
 }

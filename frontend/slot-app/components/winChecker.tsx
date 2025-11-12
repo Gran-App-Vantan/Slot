@@ -7,6 +7,7 @@ interface WinCheckerProps {
     HORIZONTAL_MULTIPLIER: number;
     DIAGONAL_MULTIPLIER: number;
     onWin: (winPoints: number) => void;
+    onResult?: (result: { type: string; role: string; payout: number }) => void;
 }
 
 export function checkWin({
@@ -15,20 +16,36 @@ export function checkWin({
     bet,
     HORIZONTAL_MULTIPLIER,
     DIAGONAL_MULTIPLIER,
-    onWin
+    onWin,
+    onResult
 }: WinCheckerProps) {
     const [reel0, reel1, reel2] = symbolGrid;
     const [top0, center0, bottom0] = reel0;
     const [top1, center1, bottom1] = reel1;
     const [top2, center2, bottom2] = reel2;
 
+    // デバッグログ
+    console.log('checkWin called with:', {
+        symbolGrid,
+        bet,
+        top0, top1, top2,
+        center0, center1, center2,
+        bottom0, bottom1, bottom2
+    });
+
     if (!top0 || !center0 || !bottom0 || !top1 || !center1 || !bottom1 || !top2 || !center2 || !bottom2) {
+        console.log('Some symbols are null, returning early');
         return;
     }
 
     let winPoints = 0;
-    const currentBet = bet + 100; // 現在のBET額
-    const betMultiplier = currentBet / 100; // BET倍率（100=1倍、200=2倍、300=3倍）
+    const currentBet = bet + 100;
+    const betMultiplier = currentBet / 100;
+    let resultType = 'ハズレ';
+    let resultRole = '';
+    let resultPayout = 0;
+
+    console.log('Calculating with:', { currentBet, betMultiplier });
 
     // 横ラインのチェック（上、中央、下）
     // 上段
@@ -36,45 +53,60 @@ export function checkWin({
         const basePayout = rolePayouts[top0] || 0;
         const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER * betMultiplier);
         winPoints += payout;
-        console.log(`上段が揃いました！ (${top0}): ${payout}ポイント`);
+        resultType = '上段';
+        resultRole = top0;
+        resultPayout = payout;
     }
     // 中央段
-    if (center0 === center1 && center1 === center2) {
+    else if (center0 === center1 && center1 === center2) {
         const basePayout = rolePayouts[center0] || 0;
         const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER * betMultiplier);
         winPoints += payout;
-        console.log(`中央段が揃いました！ (${center0}): ${payout}ポイント`);
+        resultType = '中央段';
+        resultRole = center0;
+        resultPayout = payout;
     }
     // 下段
-    if (bottom0 === bottom1 && bottom1 === bottom2) {
+    else if (bottom0 === bottom1 && bottom1 === bottom2) {
         const basePayout = rolePayouts[bottom0] || 0;
         const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER * betMultiplier);
         winPoints += payout;
-        console.log(`下段が揃いました！ (${bottom0}): ${payout}ポイント`);
+        resultType = '下段';
+        resultRole = bottom0;
+        resultPayout = payout;
     }
-
     // 斜めラインのチェック
     // 左上→右下（上段左、中央段中央、下段右）
-    if (top0 === center1 && center1 === bottom2) {
+    else if (top0 === center1 && center1 === bottom2) {
         const basePayout = rolePayouts[top0] || 0;
         const payout = Math.floor(basePayout * DIAGONAL_MULTIPLIER * betMultiplier);
         winPoints += payout;
-        console.log(`左上→右下の斜めが揃いました！ (${top0}): ${payout}ポイント`);
+        resultType = '左上→右下';
+        resultRole = top0;
+        resultPayout = payout;
     }
     // 右上→左下（上段右、中央段中央、下段左）
-    if (top2 === center1 && center1 === bottom0) {
+    else if (top2 === center1 && center1 === bottom0) {
         const basePayout = rolePayouts[top2] || 0;
         const payout = Math.floor(basePayout * DIAGONAL_MULTIPLIER * betMultiplier);
         winPoints += payout;
-        console.log(`右上→左下の斜めが揃いました！ (${top2}): ${payout}ポイント`);
+        resultType = '右上→左下';
+        resultRole = top2;
+        resultPayout = payout;
     }
-    else {
-        console.log('ハズレ');
+
+    console.log('Final result:', { resultType, resultRole, resultPayout, winPoints });
+
+    // 結果をコールバックで返す（ハズレも含めて全て記録）
+    if (onResult) {
+        onResult({
+            type: resultType,
+            role: resultRole || 'none', // ハズレの場合は'none'を設定
+            payout: resultPayout
+        });
     }
 
     if (winPoints > 0) {
-        onWin(winPoints);
-        console.log(`合計 ${winPoints}ポイント獲得！`);
-        alert(`${winPoints}ポイント獲得！`);
+        onWin(winPoints);;
     }
 }
