@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import Reel from "@/components/reel";
 import StartStop from "@/components/StartStop";
+import Gambling from "@/components/gambling";
+import { checkWin } from "@/components/winChecker";
 
 export default function RandomRolePage() {
     // ボタン押下回数をカウント
@@ -17,8 +19,14 @@ export default function RandomRolePage() {
     ]);
     // ポイントを管理
     const [points, setPoints] = useState(0);
+    // BET額を管理
+    const [bet, setBet] = useState(0);
     // この回のスピンで既にポイントを付与したかどうかを追跡
     const hasCheckedWinRef = useRef(false);
+
+    const BetChange = () => {
+        setBet(prevBet => prevBet + 100);
+    }
 
     useEffect(() => {
         // 3つすべてのリールが停止していて、すべてのシンボルが設定されている場合のみチェック
@@ -45,67 +53,32 @@ export default function RandomRolePage() {
         gRole: 1000,  // 淳平No.7
     };
 
+    // BET額に応じた各ロールの配当を計算
+    // BET額 - (ロール値 * 倍率)
+    // 倍率 = BET額 / 100
+    const calculatePayout = (roleKey: string) => {
+        const roleValue = rolePayouts[roleKey] || 0;
+        const currentBet = bet + 100; // clickBetと同じ値
+        const multiplier = currentBet / 100; // BET倍率（100=1倍、200=2倍、300=3倍）
+        return currentBet - (roleValue * multiplier);
+    };
+
     // 横ラインの配当倍率
     const HORIZONTAL_MULTIPLIER = 1.0;
     // 斜めラインの配当倍率
     const DIAGONAL_MULTIPLIER = 1.5;
 
     const userWin = () => {
-        const [reel0, reel1, reel2] = symbolGrid;
-        const [top0, center0, bottom0] = reel0;
-        const [top1, center1, bottom1] = reel1;
-        const [top2, center2, bottom2] = reel2;
-
-        if (!top0 || !center0 || !bottom0 || !top1 || !center1 || !bottom1 || !top2 || !center2 || !bottom2) {
-            return;
-        }
-
-        let winPoints = 0;
-
-        // 横ラインのチェック（上、中央、下）
-        // 上段
-        if (top0 === top1 && top1 === top2) {
-            const basePayout = rolePayouts[top0] || 0;
-            const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER);
-            winPoints += payout;
-            console.log(`上段が揃いました！ (${top0}): ${payout}ポイント`);
-        }
-        // 中央段
-        if (center0 === center1 && center1 === center2) {
-            const basePayout = rolePayouts[center0] || 0;
-            const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER);
-            winPoints += payout;
-            console.log(`中央段が揃いました！ (${center0}): ${payout}ポイント`);
-        }
-        // 下段
-        if (bottom0 === bottom1 && bottom1 === bottom2) {
-            const basePayout = rolePayouts[bottom0] || 0;
-            const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER);
-            winPoints += payout;
-            console.log(`下段が揃いました！ (${bottom0}): ${payout}ポイント`);
-        }
-
-        // 斜めラインのチェック
-        // 左上→右下（上段左、中央段中央、下段右）
-        if (top0 === center1 && center1 === bottom2) {
-            const basePayout = rolePayouts[top0] || 0;
-            const payout = Math.floor(basePayout * DIAGONAL_MULTIPLIER);
-            winPoints += payout;
-            console.log(`左上→右下の斜めが揃いました！ (${top0}): ${payout}ポイント`);
-        }
-        // 右上→左下（上段右、中央段中央、下段左）
-        if (top2 === center1 && center1 === bottom0) {
-            const basePayout = rolePayouts[top2] || 0;
-            const payout = Math.floor(basePayout * DIAGONAL_MULTIPLIER);
-            winPoints += payout;
-            console.log(`右上→左下の斜めが揃いました！ (${top2}): ${payout}ポイント`);
-        }
-
-        if (winPoints > 0) {
-            setPoints(prev => prev + winPoints);
-            console.log(`合計 ${winPoints}ポイント獲得！`);
-            alert(`${winPoints}ポイント獲得！`);
-        }
+        checkWin({
+            symbolGrid,
+            rolePayouts,
+            bet,
+            HORIZONTAL_MULTIPLIER,
+            DIAGONAL_MULTIPLIER,
+            onWin: (winPoints) => {
+                setPoints(prev => prev + winPoints);
+            }
+        });
     }
 
     // デバッグ用: 強制的に同じroleを設定する関数
@@ -182,6 +155,7 @@ export default function RandomRolePage() {
             <div className="mt-4">
                 <p className="text-xl font-bold">ポイント: {points}</p>
             </div>
+            <Gambling bet={bet} onBetChange={BetChange}/>
         </>
     );
 }
