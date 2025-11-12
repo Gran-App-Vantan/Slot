@@ -34,6 +34,22 @@ export default function RandomRolePage() {
         }
     }, [reelStates, symbolGrid]);
 
+    // 各roleの配当を定義
+    const rolePayouts: Record<string, number> = {
+        aRole: 20,   // 淳平No.1
+        bRole: 50,  // 淳平No.2
+        cRole: 90,  // 淳平No.3
+        dRole: 200,  // 淳平No.4
+        eRole: 300,  // 淳平No.5
+        fRole: 500,  // 淳平No.6
+        gRole: 1000,  // 淳平No.7
+    };
+
+    // 横ラインの配当倍率
+    const HORIZONTAL_MULTIPLIER = 1.0;
+    // 斜めラインの配当倍率
+    const DIAGONAL_MULTIPLIER = 1.5;
+
     const userWin = () => {
         const [reel0, reel1, reel2] = symbolGrid;
         const [top0, center0, bottom0] = reel0;
@@ -49,35 +65,45 @@ export default function RandomRolePage() {
         // 横ラインのチェック（上、中央、下）
         // 上段
         if (top0 === top1 && top1 === top2) {
-            winPoints += 100;
-            console.log("上段が揃いました！");
+            const basePayout = rolePayouts[top0] || 0;
+            const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER);
+            winPoints += payout;
+            console.log(`上段が揃いました！ (${top0}): ${payout}ポイント`);
         }
         // 中央段
         if (center0 === center1 && center1 === center2) {
-            winPoints += 100;
-            console.log("中央段が揃いました！");
+            const basePayout = rolePayouts[center0] || 0;
+            const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER);
+            winPoints += payout;
+            console.log(`中央段が揃いました！ (${center0}): ${payout}ポイント`);
         }
         // 下段
         if (bottom0 === bottom1 && bottom1 === bottom2) {
-            winPoints += 100;
-            console.log("下段が揃いました！");
+            const basePayout = rolePayouts[bottom0] || 0;
+            const payout = Math.floor(basePayout * HORIZONTAL_MULTIPLIER);
+            winPoints += payout;
+            console.log(`下段が揃いました！ (${bottom0}): ${payout}ポイント`);
         }
 
         // 斜めラインのチェック
         // 左上→右下（上段左、中央段中央、下段右）
         if (top0 === center1 && center1 === bottom2) {
-            winPoints += 150;
-            console.log("左上→右下の斜めが揃いました！");
+            const basePayout = rolePayouts[top0] || 0;
+            const payout = Math.floor(basePayout * DIAGONAL_MULTIPLIER);
+            winPoints += payout;
+            console.log(`左上→右下の斜めが揃いました！ (${top0}): ${payout}ポイント`);
         }
         // 右上→左下（上段右、中央段中央、下段左）
         if (top2 === center1 && center1 === bottom0) {
-            winPoints += 150;
-            console.log("右上→左下の斜めが揃いました！");
+            const basePayout = rolePayouts[top2] || 0;
+            const payout = Math.floor(basePayout * DIAGONAL_MULTIPLIER);
+            winPoints += payout;
+            console.log(`右上→左下の斜めが揃いました！ (${top2}): ${payout}ポイント`);
         }
 
         if (winPoints > 0) {
             setPoints(prev => prev + winPoints);
-            console.log(`${winPoints}ポイント獲得！`);
+            console.log(`合計 ${winPoints}ポイント獲得！`);
             alert(`${winPoints}ポイント獲得！`);
         }
     }
