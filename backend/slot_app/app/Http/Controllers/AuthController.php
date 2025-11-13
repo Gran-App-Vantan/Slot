@@ -103,7 +103,7 @@ class AuthController extends Controller
         }
 
         $authUser->update([
-            'sns_id' =>null,
+            'point' => $authUser->point,
         ]);
         return response()->noContent();
     }
@@ -112,6 +112,7 @@ class AuthController extends Controller
         $authUser = request()->user();
 
         $authUser->update([
+            'sns_id' =>null,
             'is_playing' => false,
         ]);
 
