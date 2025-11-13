@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,10 +14,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->unsignedInteger('latch')->default(0);
+            $table->unsignedBigInteger('sns_id')->nullable();
+            $table->boolean('is_set')->default(false);
+            $table->boolean('is_playing')->default(false);
+            $table->integer('point')->default(10000);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -26,11 +28,7 @@ return new class extends Migration
             ['id' => 2],
             ['id' => 3],
             ['id' => 4],
-            ['id' => 5],
-            ['id' => 6],
-            ['id' => 7],
-            ['id' => 8],
-        ])
+        ]);
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
