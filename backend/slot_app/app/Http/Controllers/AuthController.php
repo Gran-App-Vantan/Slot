@@ -58,19 +58,15 @@ class AuthController extends Controller
         ]);
     }
 
-    public function latch_return(Request $request, LatchRequest $latchRequest){
+    public function latch_return(Request $request){
         $authUser = request()->user();
-        \Log::info('Latchが返されました', [
-            'user_id' => $authUser->id,
-            'current_latch' => $authUser->latch,
-        ]);
         return response()->json([
             'latch' => $authUser->latch,
             'success' => true,
         ]);
     }
 
-    public function latch_update(Request $request, LatchRequest $latchRequest){
+    public function latch_update(LatchRequest $request){
         $authUser = request()->user();
         $latch = $authUser->latch;
         $latch += $request->input('latch');
