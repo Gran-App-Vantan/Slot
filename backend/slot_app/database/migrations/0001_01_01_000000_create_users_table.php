@@ -21,6 +21,17 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        DB::table('users')->insert([
+            ['id' => 1],
+            ['id' => 2],
+            ['id' => 3],
+            ['id' => 4],
+            ['id' => 5],
+            ['id' => 6],
+            ['id' => 7],
+            ['id' => 8],
+        ])
+
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
