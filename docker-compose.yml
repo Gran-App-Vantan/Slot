@@ -9,6 +9,8 @@ services:
     build: ./frontend
     volumes:
       - ./frontend:/workdir
+      - /workdir/slot-app/.next
+      - /workdir/slot-app/node_modules
     ports:
       - 3005:3000
   db:
