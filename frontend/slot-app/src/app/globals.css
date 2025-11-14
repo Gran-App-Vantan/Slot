@@ -1,15 +1,22 @@
 @import "tailwindcss";
 
 :root {
+  --red: #F74D4D;
   --background: #ffffff;
   --foreground: #171717;
-}
+  --gold: linear-gradient(#c2a800 0%, #ffed7a 40%, #fff3a8 50%, #ffed7a 60%, #c2a800 100%);
 
-@theme inline {
+  --font-Gothic: var(--font-zen-maru-gothic), serif, normal;
+  --p22: 22px;
+  --p20: 20px;
+} 
+
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-red: var(--red);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +30,187 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .border-gold-inner-green {
+    border: 4px solid transparent;
+    border-radius: 22px;
+    background:
+    linear-gradient(#406718 0%, #9CC579 18%, #236718 33%, #295B11 62%, #359721 100%) content-box, 
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) 1;
+    border-image-slice: 1;
+  }
+  .text-gold {
+    background: var(--gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .border-gold-inner-red {
+    border: 4px solid transparent;
+    border-radius: 22px;
+    background:
+    linear-gradient(#671818 0%, #C57979 10%, #671818 33%, #5B1111 62%, #972121 100%) content-box, 
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) 1;
+    border-image-slice: 1;
+  }
+  .border-gold-inner-blue {
+    border: 4px solid transparent;
+    border-radius: 22px;
+    background:
+    linear-gradient(#183A67 0%, #182B67 33%, #11205B 62%, #215097 100%) content-box,  
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) 1;
+    border-image-slice: 1;
+  }
+  .border-gold-inner-black {
+    border: 4px solid transparent;
+    border-radius: 22px;
+    background:
+    linear-gradient(#1A1A1A 0%, #1A1A1A 100%) content-box, 
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) border-box;
+  }
+}
+.text-gold {
+  background: var(--gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.size-27 {
+  font-size: 27px;
+  font-family: "Noto Rashi Hebrew", serif, bold;
+}
+.size-27-SC {
+  font-size: 27px;
+  font-family: "Noto Sans SC", serif, bold;
+}
+.size-big {
+  font-size: 40px;
+  font-family: "Noto Sans SC", serif;
+  font-weight: 800;
+}
+.gold {
+  background: linear-gradient(#c2a800 0%, #ffed7a 40%, #fff3a8 50%, #ffed7a 60%, #c2a800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.wheel-line {
+  width: 223px;
+  height: 419px;
+  border-radius: 22px;
+  border: 7px solid transparent;
+  background: 
+  linear-gradient(
+    #666666 0% 0.07,
+    #666666 1% 0.01,
+    #ffffff 3% 0.5,
+    #ffffff 4% 0.8,
+    #ffffff 20%,
+    #ffffff 50%,
+    #ffffff 80%,
+    #ffffff 96% 0.8,
+    #ffffff 97% 0.5,
+    #666666 99% 0.01,
+    #666666 100% 0.07
+  ) content-box,
+  linear-gradient(
+    #ffe59a 0%,
+    #ffc84d 35%,
+    #d4af37 54%,
+    #a17619 75%,
+    #fff1bf 100%
+  ) border-box;
+}
+.slot-item {
+  width: 174px;
+  height: 165px;
+  border-radius: 22px;
+  border: 8px solid transparent;
+  background: 
+  linear-gradient(#9b0000, #9b0000) content-box,
+  linear-gradient(
+    #ffe59a 0%,
+    #ffc84d 35%,
+    #d4af37 55%,
+    #a17619 75%,
+    #fff1bf 100%
+  ) border-box;
+}
+@keyframes spin {
+  /* スピン用のアニメーション */
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+}
+@keyframes text-blinking {
+  0% {
+    opacity: 1;
+    color: var(--gold);
+  }
+  100% {
+    opacity: 1;
+    color: var(--red);
+  }
+}
+.text-blinking {
+  animation: text-blinking 0.5s ease-in-out infinite alternate;
+}
+.border-gold {
+  border: 7px solid transparent;
+  border-radius: 24px;
+  background: var(--gold);
+  background: 
+    transparent content-box,
+    var(--gold) border-box;
+}
+.border-gold-inner-img {
+  border: 7px solid transparent;
+  border-radius: 24px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)) content-box,
+    url('/bg/bg-image.png') content-box,
+    linear-gradient(#0a0a0a 0%, #0a0a0a 100%) content-box,
+    linear-gradient(
+      #c2a800 0%,
+      #ffed7a 40%,
+      #fff3a8 50%,
+      #ffed7a 60%,
+      #c2a800 100%
+    ) border-box;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.p22 {
+  font-size: var(--p22);
+  font-family: var(--font-Gothic);
 }
