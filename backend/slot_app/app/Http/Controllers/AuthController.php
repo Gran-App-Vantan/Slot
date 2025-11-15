@@ -183,6 +183,21 @@ class AuthController extends Controller
                 ], 401);
             }
 
+            // SNSトークンをリクエストから取得
+            $snsToken = $request->input('sns_token');
+            
+            \Log::info('createUrl: SNSトークン受信', [
+                'user_id' => $authUser->id,
+                'sns_token_exists' => !empty($snsToken),
+            ]);
+
+            // SNSトークンがある場合は保存または使用
+            if ($snsToken) {
+                // 必要に応じてユーザー情報を更新
+                // 例: $authUser->sns_token = $snsToken;
+                // $authUser->save();
+            }
+
             // 設定値の確認
             $apiUrl = config('services.dealer.api_url');
             $token = config('services.dealer.token');
@@ -261,7 +276,7 @@ class AuthController extends Controller
                     'message' => 'トークン生成に失敗しました',
                     'error' => $errorJson ?? $errorBody,
                     'status' => $response->status(),
-                    'external_api_error' => true, // 外部APIのエラーであることを示す
+                    'external_api_error' => true, 
                 ], 500);
             }
 

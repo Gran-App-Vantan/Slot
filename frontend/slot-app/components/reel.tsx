@@ -153,7 +153,7 @@ function Reel({ running, symbolChange, reelIndex }: ReelProps) {
     }, [running]);
 
     return (
-        <div className="wheel-line overflow-hidden relative">
+        <div className="wheel-line overflow-hidden relative border-4 border-black bg-black">
             <div
                 ref={containerRef}
                 className="py-2"

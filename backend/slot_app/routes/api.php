@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GameController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 
 Route::get('/user', function (Request $request) {
@@ -19,4 +20,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('point_update', [AuthController::class, 'point_update']);
     Route::post('/create-url', [AuthController::class, 'createUrl']);
 });
+Route::middleware('auth:sanctum')->prefix('game')->group(function () {
+    Route::post('/create-url', [GameController::class, 'createUrl']);
+    Route::post('/confirmation-token', [GameController::class, 'confirmationToken']);
 
+});

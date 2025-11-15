@@ -161,8 +161,10 @@ export default function RandomRolePage() {
                 />
             </div>
             <StartStop onStop={handleToggle} clickCount={clickCount} />
-            <Gambling bet={bet} onBetChange={BetChange}/>
-            <TimeLine results={timelineResults} />
+            <div className="flex">
+                <Gambling bet={bet} onBetChange={BetChange}/>
+                <TimeLine results={timelineResults} />
+            </div>
         </>
     );
 }
