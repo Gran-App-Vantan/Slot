@@ -18,8 +18,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('latch_return', [AuthController::class, 'latch_return']);
     Route::patch('latch_update', [AuthController::class, 'latch_update']);
     Route::patch('point_update', [AuthController::class, 'point_update']);
+    Route::post('/create-url', [AuthController::class, 'createUrl']);
 });
 Route::middleware('auth:sanctum')->prefix('game')->group(function () {
     Route::post('/create-url', [GameController::class, 'createUrl']);
+    Route::post('/confirmation-token', [GameController::class, 'confirmationToken']);
 
 });

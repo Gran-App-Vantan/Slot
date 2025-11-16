@@ -94,6 +94,33 @@ body {
       #c2a800 100%
     ) border-box;
   }
+  .wheel-line {
+    width: 223px;
+    height: 560px;
+    border-radius: 22px;
+    border: 7px solid transparent;
+    background: 
+    linear-gradient(
+      #666666 0% 0.07,
+      #666666 1% 0.01,
+      #ffffff 3% 0.5,
+      #ffffff 4% 0.8,
+      #ffffff 20%,
+      #ffffff 50%,
+      #ffffff 80%,
+      #ffffff 96% 0.8,
+      #ffffff 97% 0.5,
+      #666666 99% 0.01,
+      #666666 100% 0.07
+    ) content-box,
+    linear-gradient(
+      #ffe59a 0%,
+      #ffc84d 35%,
+      #d4af37 54%,
+      #a17619 75%,
+      #fff1bf 100%
+    ) border-box;
+  }
 }
 .text-gold {
   background: var(--gold);
@@ -119,33 +146,6 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-.wheel-line {
-  width: 223px;
-  height: 419px;
-  border-radius: 22px;
-  border: 7px solid transparent;
-  background: 
-  linear-gradient(
-    #666666 0% 0.07,
-    #666666 1% 0.01,
-    #ffffff 3% 0.5,
-    #ffffff 4% 0.8,
-    #ffffff 20%,
-    #ffffff 50%,
-    #ffffff 80%,
-    #ffffff 96% 0.8,
-    #ffffff 97% 0.5,
-    #666666 99% 0.01,
-    #666666 100% 0.07
-  ) content-box,
-  linear-gradient(
-    #ffe59a 0%,
-    #ffc84d 35%,
-    #d4af37 54%,
-    #a17619 75%,
-    #fff1bf 100%
-  ) border-box;
 }
 .slot-item {
   width: 174px;

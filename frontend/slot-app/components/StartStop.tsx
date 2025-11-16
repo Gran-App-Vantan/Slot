@@ -19,7 +19,7 @@ export default function StartStop( { onStop, clickCount }: StartStop ) {
         }
     };
 
-    return <button className="border-gold-inner-green w-60 h-16" onClick={handleClick}>
+    return <button className="border-3 bg-black w-60 h-16" onClick={handleClick}>
         <span className={"size-27 " + `${isRunning ? "text-blinking size-big" : "text-gold"}`}>
             {isRunning ? "Stop" : "Start"}            
         </span>

@@ -5,7 +5,7 @@ import TimeLine from "@/components/timeLine";
 function GamePage() {
     return (
         <div className="">
-            <TimeLine />
+            {/* <TimeLine /> */}
             {/* <Gambling /> */}
         </div>
     )
